@@ -1,0 +1,17 @@
+#create this file in this location manually "/etc/systemd/system/uwsgi.service"
+#and then add the following content(from below the line)
+-- update this"/home/apple_search_ad/.venv/bin/uwsgi" with the virtualenv location
+----------------------------------------------------------------------------------------------------------------
+[Unit]
+Description=uWSGI Emperor service
+
+[Service]
+ExecStartPre=/bin/bash -c 'mkdir -p /run/uwsgi; chown www-data:www-data /run/uwsgi'
+ExecStart=/home/apple_search_ad/.venv/bin/uwsgi --emperor /etc/uwsgi/sites/
+Restart=always
+KillSignal=SIGQUIT
+Type=notify
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target
