@@ -124,6 +124,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 try:
-    from nocrop_backend.local_settings import *
+    from apple_search_ad.local_settings import *
 except ImportError:
     pass
