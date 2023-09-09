@@ -19,7 +19,8 @@ class UserConversionEventCreateAPIView(APIView):
         if data.get('attribution'):
             app_user, created = AppUser.objects.get_or_create(identifier=data.get('user_identifier'))
             campaign = Campaign.objects.get(campaign_id=data.get('campaign_id'))
-            app = App.objects.get(bundle_id=data.get('bundle_id'))
+            # fix the below line later
+            app = App.objects.first()
             data['app_user'] = app_user.pk
             data['campaign'] = campaign.pk
             data['app'] = app.pk
@@ -44,7 +45,8 @@ class UserSubscriptionEventCreateAPIView(APIView):
         app_user, created = AppUser.objects.get_or_create(identifier=data.get("user_identifier"))
         user_conversion_event = UserConversionEvent.objects.filter(app_user=app_user).first()
         campaign = user_conversion_event.campaign
-        app = App.objects.get(bundle_id=data.get("bundle_id"))
+        # fix the below line later
+        app = App.objects.first()
         data['app_user'] = app_user.pk
         data["campaign"] = campaign.pk
         data['app'] = app.pk
