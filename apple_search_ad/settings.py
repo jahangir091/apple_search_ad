@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-n!jdoly2ywvbtvi&rcx7%202k0z4uwpu%3i3xuz6z36h3s$j&t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'campaign.apps.CampaignConfig',
+    'rest_framework',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -123,6 +125,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CRONLOG_DIR = BASE_DIR / 'cron.log'
+CRONJOBS = [
+    ('* * * * *', 'campaign.cron.my_scheduled_job', CRONLOG_DIR)
+]
+
 
 try:
     from apple_search_ad.local_settings import *

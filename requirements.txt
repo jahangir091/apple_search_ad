@@ -1,5 +1,11 @@
 asgiref==3.7.2
 Django==4.2.5
 sqlparse==0.4.4
-djangorestframework==3.13.1
+djangorestframework==3.14.0
 requests
+django_crontab
+
+#for mac install the binary
+#psycopg2-binary
+
+psycopg2
