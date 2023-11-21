@@ -1,5 +1,6 @@
 import base64
 import os
+import time
 
 from django.conf import settings
 
@@ -17,9 +18,10 @@ class TestAPIView(APIView):
     authentication_classes = (CsrfExemptSessionAuthentication,)
 
     def get(self, request, *args, **kwargs):
-        with open(os.path.join(settings.BASE_DIR, 'h1.jpg'), "rb") as image_file:
+        start_time = time.time()
+        with open(os.path.join(settings.BASE_DIR, 'img2.jpeg'), "rb") as image_file:
             encoded_string = base64.b64encode(image_file.read())
-        return Response({"status" : "OK, THANKS FOR CALLING ME.", "image":encoded_string}, status=status.HTTP_200_OK)
+        return Response({"status": "OK, THANKS FOR CALLING ME.", "server_time": time.time()-start_time, "image":encoded_string}, status=status.HTTP_200_OK)
 
 
 
