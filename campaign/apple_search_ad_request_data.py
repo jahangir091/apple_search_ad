@@ -12,7 +12,7 @@ search_ad_api_requests = {
         "url": "https://api.searchads.apple.com/api/v4/reports/campaigns",
         "body": {
             "startTime": "2023-01-04",
-            "endTime": "2023-09-05",
+            "endTime": "2030-12-05",
             "selector": {
                 "orderBy": [
                     {
