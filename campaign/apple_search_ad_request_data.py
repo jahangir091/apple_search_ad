@@ -1,3 +1,13 @@
+import requests
+
+
+def get_token():
+    url = search_ad_api_requests['token']['url']
+    params = search_ad_api_requests['token']['params']
+    response = requests.post(url, params=params)
+    return response.json()['access_token']
+
+
 search_ad_api_requests = {
     'token': {
         "url": "https://appleid.apple.com/auth/oauth2/token?",

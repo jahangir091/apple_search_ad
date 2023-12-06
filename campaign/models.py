@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.utils.translation import gettext_lazy as _
 
 
 class SearchAdCampaignBaseModel(models.Model):
@@ -7,6 +10,34 @@ class SearchAdCampaignBaseModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class DailyData(SearchAdCampaignBaseModel):
+    class DataType(models.TextChoices):
+        CAMPAIGN = 'CM', _('Campaign')
+        KEYWORD = 'KW', _('Keyword')
+        AD_GROUP = 'AG', _('Ad Group')
+        SEARCH_TERM = 'ST', _('Search Term')
+        AD = 'AD', _('Ad')
+    data_type = models.CharField(max_length=20, choices=DataType.choices, blank=True, null=True)
+    impressions = models.IntegerField(default=0)
+    taps = models.IntegerField(default=0)
+    installs = models.IntegerField(default=0)
+    new_downloads = models.IntegerField(default=0)
+    re_downloads = models.IntegerField(default=0)
+    lat_on_installs = models.IntegerField(default=0)
+    lat_off_installs = models.IntegerField(default=0)
+    ttr = models.FloatField(default=0)
+    avg_cpa = models.FloatField(default=0)
+    avg_cpt = models.FloatField(default=0)
+    avg_cpm = models.FloatField(default=0)
+    local_spend = models.FloatField(default=0)
+    conversion_rate = models.FloatField(default=0)
+    date = models.DateTimeField(blank=True,null=True)
+
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey()
 
 
 class App(SearchAdCampaignBaseModel):
@@ -35,6 +66,7 @@ class Campaign(SearchAdCampaignBaseModel):
     add_channel_type = models.CharField(max_length=50, blank=True, null=True)
     org_id = models.CharField(max_length=20, blank=True, null=True)
     billing_event = models.CharField(max_length=50, blank=True, null=True)
+    daily_data = GenericRelation(DailyData)
 
     def __str__(self):
         return f"{self.name}"

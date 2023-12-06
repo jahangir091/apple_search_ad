@@ -10,12 +10,7 @@ from campaign.serializers import *
 from campaign.models import *
 from campaign.apple_search_ad_request_data import search_ad_api_requests
 
-
-def get_token():
-    url = search_ad_api_requests['token']['url']
-    params = search_ad_api_requests['token']['params']
-    response = requests.post(url, params=params)
-    return response.json()['access_token']
+from campaign.apple_search_ad_reporting import AppleSearchAdReporting
 
 
 class UpdateCampaignListAPIView(APIView):
@@ -25,14 +20,13 @@ class UpdateCampaignListAPIView(APIView):
     authentication_classes = (CsrfExemptSessionAuthentication,)
 
     def get(self, request, *args, **kwargs):
-        access_token = get_token()
-        url = search_ad_api_requests['campaign_list']['url']
-        body = search_ad_api_requests['campaign_list']['body']
-        headers = search_ad_api_requests['campaign_list']['headers']
-        headers["Authorization"] = "Bearer " + access_token
-        response = requests.post(url, json=body, headers=headers)
+        report = AppleSearchAdReporting()
+        try:
+            response = report.get_campaign_list()
+        except Exception as e:
+            return Response("Could not update campaign list. "+ str(e), status=status.HTTP_400_BAD_REQUEST)
 
-        for campaign_data in  response.json()['data']['reportingDataResponse']['row']:
+        for campaign_data in response.json()['data']['reportingDataResponse']['row']:
             cmd = campaign_data['metadata']
             adamId = cmd["app"]["adamId"]
             app = App.objects.get(adamId=adamId)
