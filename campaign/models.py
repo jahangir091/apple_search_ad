@@ -63,6 +63,9 @@ class UserConversionEvent(SearchAdCampaignBaseModel):
     device_type = models.CharField(max_length=20, blank=True, null=True)
     os_version = models.CharField(max_length=20, blank=True, null=True)
 
+    def __str__(self):
+        return '{0} |------| {1} |------| {2}'.format(self.id, self.device_time.date(), self.campaign)
+
 
 class UserSubscriptionEvent(SearchAdCampaignBaseModel):
     campaign = models.ForeignKey(Campaign, related_name="user_subscription_events", on_delete=models.CASCADE)
@@ -72,8 +75,14 @@ class UserSubscriptionEvent(SearchAdCampaignBaseModel):
     subscription_status = models.CharField(max_length=20, blank=True, null=True)
     device_time = models.DateTimeField(blank=True, null=True)
 
+    def __str__(self):
+        return '{0} |-----| {1} |-----| {2}'.format(self.id, self.device_time.date(), self.campaign)
+
 
 # subscription status: TRIAL, TRIAL_CANCEL, SUBSCRIBED, RENEWED, CANCELED
 
 class OrganicUserData(SearchAdCampaignBaseModel):
     data = models.CharField(max_length=1000, blank=True, null=True)
+
+    def __str__(self):
+        return '{0} |-----| {1}'.format(self.id, self.date_created.date())
