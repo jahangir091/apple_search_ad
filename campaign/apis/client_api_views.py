@@ -56,3 +56,15 @@ class UserSubscriptionEventCreateAPIView(APIView):
             return Response("Saved data successfullly", status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class BulkUserDataCreateAPIView(APIView):
+    """
+    Create Any user event API.
+    """
+    authentication_classes = (CsrfExemptSessionAuthentication,)
+
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        BulkUserData.objects.create(data=data)
+        return Response("Saved data successfully.", status=status.HTTP_201_CREATED)

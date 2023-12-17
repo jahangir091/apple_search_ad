@@ -87,3 +87,10 @@ class OrganicUserData(SearchAdCampaignBaseModel):
 
     def __str__(self):
         return '{0} || {1}'.format(self.date_created.date(), self.id)
+
+
+class BulkUserData(SearchAdCampaignBaseModel):
+    data = models.CharField(max_length=1000, blank=True, null=True)
+
+    def __str__(self):
+        return '{0} || {1}'.format(self.date_created.date(), self.id)
