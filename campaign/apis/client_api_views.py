@@ -66,5 +66,6 @@ class BulkUserDataCreateAPIView(APIView):
 
     def post(self, request, *args, **kwargs):
         data = request.data
-        BulkUserData.objects.create(data=data)
+        user_identifier = data.get("user_identifier")
+        BulkUserData.objects.create(user_identifier=user_identifier, data=data)
         return Response("Saved data successfully.", status=status.HTTP_201_CREATED)
