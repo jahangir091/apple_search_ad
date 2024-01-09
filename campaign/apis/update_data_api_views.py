@@ -9,9 +9,9 @@ from apple_search_ad.rest_authentications import CsrfExemptSessionAuthentication
 from campaign.serializers import *
 from campaign.models import *
 from campaign.apple_search_ad_request_data import search_ad_api_requests
-import logging
+from logging import getLogger
 
-log = logging.getLogger(__name__)
+logger = getLogger(__name__)
 
 
 def get_token():
@@ -28,8 +28,7 @@ class UpdateCampaignListAPIView(APIView):
     authentication_classes = (CsrfExemptSessionAuthentication,)
 
     def get(self, request, *args, **kwargs):
-        log.debug("...............................Logging update campaign ids api...................................")
-        log.debug('logger is working fine')
+        logger.info("...............................Logging update campaign ids api...................................")
         access_token = get_token()
         url = search_ad_api_requests['campaign_list']['url']
         body = search_ad_api_requests['campaign_list']['body']
