@@ -8,6 +8,9 @@ from campaign.serializers import *
 from campaign.models import *
 
 import syslog
+import logging
+
+log = logging.getLogger(__name__)
 
 
 class UserConversionEventCreateAPIView(APIView):
@@ -18,9 +21,8 @@ class UserConversionEventCreateAPIView(APIView):
 
     def post(self, request, *args, **kwargs):
         data = request.data
-        syslog.syslog("...............................Logging user conversion event...................................")
-        syslog.syslog(str(data))
-        syslog.syslog(syslog.LOG_INFO, str(data))
+        log.debug("...............................Logging user conversion event...................................")
+        log.debug(str(data))
         if data.get('attribution'):
             app_user, created = AppUser.objects.get_or_create(identifier=data.get('user_identifier'))
             campaign = Campaign.objects.get(campaign_id=data.get('campaign_id'))
@@ -47,9 +49,8 @@ class UserSubscriptionEventCreateAPIView(APIView):
 
     def post(self, request, *args, **kwargs):
         data = request.data
-        syslog.syslog("...............................Logging user subscription event...................................")
-        syslog.syslog(str(data))
-        syslog.syslog(syslog.LOG_INFO, str(data))
+        log.debug("...............................Logging user subscription event...................................")
+        log.debug(str(data))
         app_user, created = AppUser.objects.get_or_create(identifier=data.get("user_identifier"))
         user_conversion_event = UserConversionEvent.objects.filter(app_user=app_user).first()
         campaign = user_conversion_event.campaign
@@ -74,9 +75,8 @@ class BulkUserDataCreateAPIView(APIView):
 
     def post(self, request, *args, **kwargs):
         data = request.data
-        syslog.syslog("...............................Logging bulk user data...................................")
-        syslog.syslog(str(data))
-        syslog.syslog(syslog.LOG_INFO, str(data))
+        log.debug("...............................Logging bulk user data...................................")
+        log.debug(str(data))
         user_identifier = data.get("user_identifier")
         BulkUserData.objects.create(user_identifier=user_identifier, data=data)
         return Response("Saved data successfully.", status=status.HTTP_201_CREATED)
