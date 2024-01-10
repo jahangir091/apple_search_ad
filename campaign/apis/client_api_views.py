@@ -79,3 +79,18 @@ class BulkUserDataCreateAPIView(APIView):
         user_identifier = data.get("user_identifier")
         BulkUserData.objects.create(user_identifier=user_identifier, data=data)
         return Response("Saved data successfully.", status=status.HTTP_201_CREATED)
+
+
+class BulkAttributionDataCreateAPIView(APIView):
+    """
+    Create Any user event API.
+    """
+    authentication_classes = (CsrfExemptSessionAuthentication,)
+
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        logger.info("...............................Logging bulk attribution data...................................")
+        logger.info(str(data))
+        user_identifier = data.get("user_identifier")
+        BulkAttributionData.objects.create(user_identifier=user_identifier, data=data)
+        return Response("Saved data successfully.", status=status.HTTP_201_CREATED)
