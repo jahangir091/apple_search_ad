@@ -37,14 +37,15 @@ class Campaign(SearchAdCampaignBaseModel):
     billing_event = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.name}"
+        return '{0} || {1} || {2}'.format(self.date_created.date(), self.serving_status, self.name)
+
 
 
 class AppUser(SearchAdCampaignBaseModel):
     identifier = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.identifier}"
+        return '{0} || {1}'.format(self.date_created.date(), self.identifier)
 
 
 class UserConversionEvent(SearchAdCampaignBaseModel):
@@ -63,6 +64,9 @@ class UserConversionEvent(SearchAdCampaignBaseModel):
     device_type = models.CharField(max_length=20, blank=True, null=True)
     os_version = models.CharField(max_length=20, blank=True, null=True)
 
+    def __str__(self):
+        return '{0} || {1} || {2}'.format(self.device_time.date(), self.id, self.campaign.name)
+
 
 class UserSubscriptionEvent(SearchAdCampaignBaseModel):
     campaign = models.ForeignKey(Campaign, related_name="user_subscription_events", on_delete=models.CASCADE)
@@ -72,8 +76,30 @@ class UserSubscriptionEvent(SearchAdCampaignBaseModel):
     subscription_status = models.CharField(max_length=20, blank=True, null=True)
     device_time = models.DateTimeField(blank=True, null=True)
 
+    def __str__(self):
+        return '{0} || {1} || {2}'.format(self.device_time.date(), self.id, self.campaign.name)
+
 
 # subscription status: TRIAL, TRIAL_CANCEL, SUBSCRIBED, RENEWED, CANCELED
 
 class OrganicUserData(SearchAdCampaignBaseModel):
     data = models.CharField(max_length=1000, blank=True, null=True)
+
+    def __str__(self):
+        return '{0} || {1}'.format(self.date_created.date(), self.id)
+
+
+class BulkUserData(SearchAdCampaignBaseModel):
+    user_identifier = models.CharField(max_length=1000, default='', blank=True, null=True)
+    data = models.CharField(max_length=1000, blank=True, null=True)
+
+    def __str__(self):
+        return '{0} || {1} || {2}'.format(self.date_created.date(), self.id, self.user_identifier)
+
+
+class BulkAttributionData(SearchAdCampaignBaseModel):
+    user_identifier = models.CharField(max_length=1000, default='', blank=True, null=True)
+    data = models.CharField(max_length=1000, blank=True, null=True)
+
+    def __str__(self):
+        return '{0} || {1} || {2}'.format(self.date_created.date(), self.id, self.user_identifier)
