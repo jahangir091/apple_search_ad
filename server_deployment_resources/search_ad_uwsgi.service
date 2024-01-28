@@ -1,6 +1,6 @@
 #create this file in this location manually "/etc/systemd/system/uwsgi.service"
 #and then add the following content(from below the line)
--- update this"/home/apple_search_ad/.venv/bin/uwsgi" with the virtualenv location
+#-- update this"/home/apple_search_ad/.venv/bin/uwsgi" with the virtualenv location
 ----------------------------------------------------------------------------------------------------------------
 [Unit]
 Description=uWSGI Emperor service
