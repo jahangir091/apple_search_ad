@@ -16,9 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from campaign.logo_maker_admin import logo_admin_site
 
 
 urlpatterns = [
     path('api/', include('campaign.apis.urls')),
+    path("logo-admin/", logo_admin_site.urls),
     path('', admin.site.urls),
 ]

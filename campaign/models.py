@@ -37,7 +37,7 @@ class Campaign(SearchAdCampaignBaseModel):
     billing_event = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
-        return '{0} || {1} || {2}'.format(self.date_created.date(), self.serving_status, self.name)
+        return self.name
 
 
 

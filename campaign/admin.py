@@ -1,11 +1,12 @@
-from django.contrib import admin
-
 from campaign.models import *
+from campaign.base_admin import *
 
-admin.site.register(AppUser)
-admin.site.register(App)
-admin.site.register(Campaign)
-admin.site.register(UserConversionEvent)
-admin.site.register(UserSubscriptionEvent)
-admin.site.register(OrganicUserData)
-admin.site.register(BulkUserData)
+
+admin.site.register(App, AppModelAdmin)
+admin.site.register(Campaign, CampaignModelAdmin)
+admin.site.register(AppUser, AppUserModelAdmin)
+admin.site.register(UserConversionEvent, UserConversionEventModelAdmin)
+admin.site.register(UserSubscriptionEvent, UserSubscriptionEventModelAdmin)
+admin.site.register(OrganicUserData, OrganicUserDataModelAdmin)
+admin.site.register(BulkUserData, BulkUserDataModelAdmin)
+admin.site.register(BulkAttributionData, BulkAttributionDataModelAdmin)
