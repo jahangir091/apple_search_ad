@@ -11,77 +11,39 @@ logo_admin_site = LogoAdminSite(name="logo_admin")
 
 # this class is common for all the models in this database section
 class LogoDbSectionAdmin(MultiDBModelAdmin):
-    # other database identifier from settings
+    # logo database alias from settings
     using = 'logo'
 
 
-# -----custom proxy models for django admin panel for all the models of logo database------------------
-
-class LogoApp(App):
-    # used this custom class for Campaign model in logo database
-    class Meta:
-        proxy = True
-
-
-class LogoCampaign(Campaign):
-    # used this custom class for Campaign model in logo database
-    class Meta:
-        proxy = True
-
-
-class LogoAppUser(AppUser):
-    # used this custom class for logo AppUser model in logo database
-    class Meta:
-        proxy = True
-
-
-class LogoUserConversionEvent(UserConversionEvent):
-    # used this custom class for logo UserConversionEvent model in logo database
-    class Meta:
-        proxy = True
-
-
-class LogoUserSubscriptionEvent(UserSubscriptionEvent):
-    # used this custom class for logo UserSubscriptionEvent model in logo database
-    class Meta:
-        proxy = True
-
-
-class LogoOrganicUserData(OrganicUserData):
-    # used this custom class for logo OrganicUserData model in logo database
-    class Meta:
-        proxy = True
-
-
-# -------Custom Django admin classes for Logo Proxy models--------------------------------
-class LogoAppAdmin(LogoDbSectionAdmin, AppModelAdmin):
+# -------Custom Django admin classes for Logo DB models(tables)--------------------------------
+class LogoAppModelCustomAdmin(LogoDbSectionAdmin, AppModelAdmin):
     pass
 
 
-class LogoCampaignAdmin(LogoDbSectionAdmin, CampaignModelAdmin):
+class LogoCampaignModelCustomAdmin(LogoDbSectionAdmin, CampaignModelAdmin):
     pass
 
 
-class LogoAppUserAdmin(LogoDbSectionAdmin, AppUserModelAdmin):
+class LogoAppUserModelCustomAdmin(LogoDbSectionAdmin, AppUserModelAdmin):
     pass
 
 
-class LogoUserConversionEventAdmin(LogoDbSectionAdmin, UserConversionEventModelAdmin):
+class LogoUserConversionEventModelCustomAdmin(LogoDbSectionAdmin, UserConversionEventModelAdmin):
     pass
 
 
-class LogoUserSubscriptionEventAdmin(LogoDbSectionAdmin, UserSubscriptionEventModelAdmin):
+class LogoUserSubscriptionEventModelCustomAdmin(LogoDbSectionAdmin, UserSubscriptionEventModelAdmin):
     pass
 
 
-class LogoOrganicUserDataAdmin(LogoDbSectionAdmin, OrganicUserDataModelAdmin):
+class LogoOrganicUserDataModelCustomAdmin(LogoDbSectionAdmin, OrganicUserDataModelAdmin):
     pass
 
 
 # ---------register all the admin classes -----------------------------------
-logo_admin_site.register(LogoApp, LogoAppAdmin)
-logo_admin_site.register(LogoCampaign, LogoCampaignAdmin)
-logo_admin_site.register(LogoAppUser, LogoAppUserAdmin)
-logo_admin_site.register(LogoUserConversionEvent, LogoUserConversionEventAdmin)
-logo_admin_site.register(LogoUserSubscriptionEvent, LogoUserSubscriptionEventAdmin)
-logo_admin_site.register(LogoOrganicUserData, LogoOrganicUserDataAdmin)
+logo_admin_site.register(App, LogoAppModelCustomAdmin)
+logo_admin_site.register(Campaign, LogoCampaignModelCustomAdmin)
+logo_admin_site.register(AppUser, LogoAppUserModelCustomAdmin)
+logo_admin_site.register(UserConversionEvent, LogoUserConversionEventModelCustomAdmin)
+logo_admin_site.register(UserSubscriptionEvent, LogoUserSubscriptionEventModelCustomAdmin)
+logo_admin_site.register(OrganicUserData, LogoOrganicUserDataModelCustomAdmin)
