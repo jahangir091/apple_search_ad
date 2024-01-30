@@ -1,5 +1,7 @@
 import requests
 
+from django.conf import settings
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -9,15 +11,15 @@ from apple_search_ad.rest_authentications import CsrfExemptSessionAuthentication
 from campaign.serializers import *
 from campaign.models import *
 from campaign.apple_search_ad_request_data import search_ad_api_requests
-from campaign.db_manager import get_model_manager, exist_db, get_app_name_from_db_alias
+from campaign.db_manager import get_model_manager, get_bundle_id
 from logging import getLogger
 
 logger = getLogger(__name__)
 
 
-def get_token(app_name):
-    url = search_ad_api_requests[app_name]['token']['url']
-    params = search_ad_api_requests[app_name]['token']['params']
+def get_token(bundle_id):
+    url = search_ad_api_requests[bundle_id]['token']['url']
+    params = search_ad_api_requests[bundle_id]['token']['params']
     response = requests.post(url, params=params)
     return response.json()['access_token']
 
@@ -31,14 +33,13 @@ class UpdateCampaignListAPIView(APIView):
     def post(self, request, *args, **kwargs):
         logger.info("...............................Logging update campaign ids api...................................")
         data = request.data
-        db_alias = data.get("db_alias")
-        if not exist_db(db_alias):
-            return Response("Database alias does not exist.", status=status.HTTP_404_NOT_FOUND)
-        app_name = get_app_name_from_db_alias(db_alias)
-        access_token = get_token(app_name)
-        url = search_ad_api_requests[app_name]['campaign_list']['url']
-        body = search_ad_api_requests[app_name]['campaign_list']['body']
-        headers = search_ad_api_requests[app_name]['campaign_list']['headers']
+        bundle_id, message = get_bundle_id(data)
+        if not bundle_id:
+            return Response(message, status=status.HTTP_404_NOT_FOUND)
+        access_token = get_token(bundle_id)
+        url = search_ad_api_requests[bundle_id]['campaign_list']['url']
+        body = search_ad_api_requests[bundle_id]['campaign_list']['body']
+        headers = search_ad_api_requests[bundle_id]['campaign_list']['headers']
         headers["Authorization"] = "Bearer " + access_token
         response = requests.post(url, json=body, headers=headers)
 
@@ -46,9 +47,9 @@ class UpdateCampaignListAPIView(APIView):
             cmd = campaign_data['metadata']
             adamId = cmd["app"]["adamId"]
             # app = App.objects.get(adamId=adamId)
-            app = get_model_manager(App, db_alias).get(adamId=adamId)
+            app, created = get_model_manager(App, bundle_id).get_or_create(adamId=adamId)
             # campaign, created = Campaign.objects.get_or_create(campaign_id=cmd['campaignId'], app=app)
-            campaign, created = get_model_manager(Campaign, db_alias).get_or_create(campaign_id=cmd['campaignId'], app=app)
+            campaign, created = get_model_manager(Campaign, bundle_id).get_or_create(campaign_id=cmd['campaignId'], app=app)
             campaign.name = cmd.get('campaignName', '')
             campaign.deleted = cmd.get('deleted', False)
             campaign.status = cmd.get('campaignStatus', '')

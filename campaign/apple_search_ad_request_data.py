@@ -1,5 +1,5 @@
 search_ad_api_requests = {
-    'remote_app': {
+    'com.secure.universalRemote': {
         'token': {
             "url": "https://appleid.apple.com/auth/oauth2/token?",
             "params": {
@@ -43,7 +43,7 @@ search_ad_api_requests = {
             }
         }
     },
-    'logo_app': {
+    'com.bitmorpher.apps.logomaker': {
         'token': {
             "url": "https://appleid.apple.com/auth/oauth2/token?",
             "params": {

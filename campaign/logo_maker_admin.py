@@ -1,3 +1,5 @@
+from django.conf import settings
+
 from campaign.models import *
 from campaign.base_admin import *
 
@@ -12,7 +14,7 @@ logo_admin_site = LogoAdminSite(name="logo_admin")
 # this class is common for all the models in this database section
 class LogoDbSectionAdmin(MultiDBModelAdmin):
     # logo database alias from settings
-    using = 'logo'
+    using = settings.LOGO_APP_DATABASE_ALIAS
 
 
 # -------Custom Django admin classes for Logo DB models(tables)--------------------------------
@@ -40,6 +42,10 @@ class LogoOrganicUserDataModelCustomAdmin(LogoDbSectionAdmin, OrganicUserDataMod
     pass
 
 
+class LogoBulkUserDataModelCustomAdmin(LogoDbSectionAdmin, BulkUserDataModelAdmin):
+    pass
+
+
 # ---------register all the admin classes -----------------------------------
 logo_admin_site.register(App, LogoAppModelCustomAdmin)
 logo_admin_site.register(Campaign, LogoCampaignModelCustomAdmin)
@@ -47,3 +53,4 @@ logo_admin_site.register(AppUser, LogoAppUserModelCustomAdmin)
 logo_admin_site.register(UserConversionEvent, LogoUserConversionEventModelCustomAdmin)
 logo_admin_site.register(UserSubscriptionEvent, LogoUserSubscriptionEventModelCustomAdmin)
 logo_admin_site.register(OrganicUserData, LogoOrganicUserDataModelCustomAdmin)
+logo_admin_site.register(BulkUserData, LogoBulkUserDataModelCustomAdmin)
