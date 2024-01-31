@@ -47,7 +47,8 @@ class UpdateCampaignListAPIView(APIView):
             cmd = campaign_data['metadata']
             adamId = cmd["app"]["adamId"]
             # app = App.objects.get(adamId=adamId)
-            app, created = get_model_manager(App, bundle_id).get_or_create(adamId=adamId)
+            app_name = bundle_id.split('.')[-1]
+            app, created = get_model_manager(App, bundle_id).get_or_create(name=app_name, bundle_id=bundle_id,adamId=adamId)
             # campaign, created = Campaign.objects.get_or_create(campaign_id=cmd['campaignId'], app=app)
             campaign, created = get_model_manager(Campaign, bundle_id).get_or_create(campaign_id=cmd['campaignId'], app=app)
             campaign.name = cmd.get('campaignName', '')

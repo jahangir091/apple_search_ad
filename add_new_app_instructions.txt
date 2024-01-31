@@ -1,0 +1,7 @@
+1. Create a new database for the new app
+2. in local_settings.py add credentials for the new app in 'APP_INFO' dictionary.
+3. add the new database credentials for the new app in the database settings in local_settings
+4. run migrations for the new database: python manage.py migrate --database=logo, here logo is the new app db_alias
+5. copy the logo_maker_admin.py and create a new admin file for the new app. Just update the class names for the
+    new app and register classes to new admin.
+6. In the main urls.py file add the new admin site as like logo-admin site is added.

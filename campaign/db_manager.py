@@ -1,15 +1,12 @@
 from django.conf import settings
 
-from rest_framework.response import Response
-from rest_framework import status
-
 
 def get_model_manager(model, bundle_id):
-    if bundle_id == 'com.bitmorpher.apps.logomaker':
-        db_alias = 'logo'
-    else:
-        db_alias = 'default'
-    return model.objects.using(db_alias)
+    for key, value in settings.APP_INFO.items():
+        if value['bundle_id'] == bundle_id:
+            db_alias = value['db_alias']
+            return model.objects.using(db_alias)
+    return model.objects.using('default')
 
 
 def get_bundle_id(data):
