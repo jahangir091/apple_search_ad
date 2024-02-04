@@ -22,5 +22,5 @@ from campaign.logo_maker_admin import logo_admin_site
 urlpatterns = [
     path('api/', include('campaign.apis.urls')),
     path("logo-admin/", logo_admin_site.urls),
-    path('remote-admin', admin.site.urls),
+    path('remote-admin/', admin.site.urls),
 ]
