@@ -53,6 +53,7 @@ class UserConversionEvent(SearchAdCampaignBaseModel):
     app_user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
     app = models.ForeignKey(App, on_delete=models.CASCADE)
     org_id = models.CharField(max_length=20, null=True, blank=True)
+    app_version = models.CharField(max_length=20, null=True, blank=True)
     keyword_id = models.CharField(max_length=20, null=True, blank=True)
     ad_id = models.CharField(max_length=20, null=True, blank=True)
     ad_group_id = models.CharField(max_length=20, null=True, blank=True)
@@ -61,6 +62,7 @@ class UserConversionEvent(SearchAdCampaignBaseModel):
     ad_click_date = models.DateTimeField(blank=True, null=True)
     attribution = models.BooleanField(default=True)
     device_time = models.DateTimeField(blank=True, null=True)
+    install_date = models.DateTimeField(blank=True, null=True)
     device_type = models.CharField(max_length=20, blank=True, null=True)
     os_version = models.CharField(max_length=20, blank=True, null=True)
 
