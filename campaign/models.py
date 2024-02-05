@@ -74,8 +74,8 @@ class UserSubscriptionEvent(SearchAdCampaignBaseModel):
     campaign = models.ForeignKey(Campaign, related_name="user_subscription_events", on_delete=models.CASCADE)
     app = models.ForeignKey(App, on_delete=models.CASCADE)
     app_user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
-    subscription_id = models.CharField(max_length=20, blank=True, null=True)
-    subscription_status = models.CharField(max_length=20, blank=True, null=True)
+    subscription_id = models.CharField(max_length=100, blank=True, null=True)
+    subscription_status = models.CharField(max_length=100, blank=True, null=True)
     device_time = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
